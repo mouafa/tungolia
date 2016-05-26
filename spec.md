@@ -10,4 +10,5 @@ search config:
 ### highlight             / implemented
 ### highlightPreTag       / implemented
 ### highlightPostTag      / implemented
-### facets                / not yet
+### facets                / implemented ("facets" : [{"field": "job_type", "type": "terms"},{"field": "incentive", "type": "stats"}])
+### range                 / not yet

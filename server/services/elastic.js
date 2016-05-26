@@ -3,7 +3,7 @@
 var elasticsearch = require('elasticsearch')
 var client = new elasticsearch.Client({
   host: 'localhost:5200',
-  log: 'trace'
+  log: 'error' // 'trace'
 })
 
 var m = require('./magic')
