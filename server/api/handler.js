@@ -64,3 +64,13 @@ exports.search = function (req, rep) {
   .then((res) => rep(res),
         (err) => rep(Boom.badImplementation(err.message)))
 }
+
+exports.filter = function (req, rep) {
+  let params = req.params
+  let body = req.payload
+  if (params.term) body.term = params.term
+  // rep('tada')
+  elastic.filter(params.type, body)
+  .then((res) => rep(res),
+        (err) => rep(Boom.badImplementation(err.message)))
+}

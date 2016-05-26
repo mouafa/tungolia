@@ -3,8 +3,11 @@ search config:
 ### attributesToSearch    / implemented
 ### term                  / implemented
 ### hitsPerPage           / implemented
-### page                  / not yet
-### sortBy                / not yet
-### typoTolerance         / not yet
-### highlightPreTag       / not yet
-### highlightPostTag      / not yet
+### page                  / implemented
+### sortBy                / implemented
+### sortOrder             / implemented
+### typoTolerance         / implemented (min,max)
+### highlight             / implemented
+### highlightPreTag       / implemented
+### highlightPostTag      / implemented
+### facets                / not yet

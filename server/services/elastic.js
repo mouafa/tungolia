@@ -83,3 +83,14 @@ exports.search = function (type, config) {
     body: query
   })
 }
+
+exports.filter = function (type, config) {
+  // console.log('query', m.querySimple(query))
+  let query = m.queryAdvanced(config)
+  // let fields = config.attributesToRetrieve
+  return client.search({
+    index: mainIndex,
+    type: type,
+    body: query
+  })
+}

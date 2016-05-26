@@ -9,7 +9,7 @@ const Vision = require('vision')
 
 if (report.errorCount) {
   console.log(formatter(report.results))
-  process.exit()
+  // process.exit()
 }
 
 const Composer = require('./index')
