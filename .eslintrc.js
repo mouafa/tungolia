@@ -11,7 +11,8 @@ module.exports = {
     // desable === and !==
     'eqeqeq': 0,
     'no-useless-escape': 0,
-    'camelcase': 0
+    'camelcase': 0,
+    'space-before-function-paren' : 0
 
   },
   'globals': {

@@ -1,4 +1,5 @@
 'use strict'
+require('dotenv').config()
 var eslint = require('eslint')
 var linter = new eslint.CLIEngine({})
 var formatter = require('eslint-friendly-formatter')
@@ -19,6 +20,7 @@ Composer((err, server) => {
   server.register([Inert, Vision, Tv], function (err) {
     if (!err) {
       server.start(() => {
+        require('./server/services/bootstrap')()
         console.log('***************************************')
         console.log('---------------------------------------')
         console.log('>>>> Tungolia started on port ' + server.info.port + ' <<<<')

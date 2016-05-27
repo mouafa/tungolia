@@ -2,7 +2,7 @@
 
 /** exposed API **/
 
-exports.querySimple = function (config) {
+exports.querySimple = function(config) {
   let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
   let term = config.term.trim().split(' ').join('* ').concat('*')
   let queryOptions = setQueryOptions(config)
@@ -10,27 +10,21 @@ exports.querySimple = function (config) {
     'query': {
       'query_string': {
         'query': term,
-        'analyzer': 'english',
         'fields': fields, // ['title^5', '_all'],
         'default_operator': 'and'
       }
-    }
-  }
-  Object.assign(q, queryOptions)
-  return q
-}
-
-exports.queryMatch = function (config) {
-  let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
-  let queryOptions = setQueryOptions(config)
-  let typoTolerance = setFuzziness(config.typoTolerance)
-  let q = {
-    'query': {
-      'multi_match': {
-        'query': config.term,
-        'fields': fields, // ['title^5', '_all'],
-        'type': 'phrase_prefix',
-        'fuzziness': typoTolerance
+    },
+    'suggest': {
+      'text': config.term,
+      'phraseSuggestion': {
+        'phrase': {
+          'field': 'title.basic',
+          'direct_generator': [{
+            'field': 'title.basic',
+            'suggest_mode': 'popular',
+            'min_word_length': 1
+          }]
+        }
       }
     }
   }
@@ -38,27 +32,51 @@ exports.queryMatch = function (config) {
   return q
 }
 
-exports.queryAdvanced = function (config) {
+// exports.queryMatch = function(config) {
+//   let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
+//   let queryOptions = setQueryOptions(config)
+//   let typoTolerance = setFuzziness(config.typoTolerance)
+//   let q = {
+//     'query': {
+//       'multi_match': {
+//         'query': config.term,
+//         'fields': fields, // ['title^5', '_all'],
+//         'type': 'phrase_prefix',
+//         'fuzziness': typoTolerance
+//       }
+//     }
+//   }
+//   Object.assign(q, queryOptions)
+//   return q
+// }
+
+exports.queryAdvanced = function(config) {
   let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
   let queryOptions = setQueryOptions(config)
   let typoTolerance = setFuzziness(config.typoTolerance)
+  let filters = setFilters(config)
   let q = {
     'query': {
-      'multi_match': { // 'match_all'
-        'query': config.term,
-        'fields': fields, // ['title^5', '_all'],
-        'type': 'phrase_prefix',
-        'fuzziness': typoTolerance
+      'filtered': {
+        'query': {
+          'multi_match': { // 'match_all'
+            'query': config.term,
+            'fields': fields, // ['title^5', '_all'],
+            'type': 'phrase_prefix',
+            'fuzziness': typoTolerance
+          }
+        }
       }
     }
   }
+  Object.assign(q.query.filtered, filters)
   Object.assign(q, queryOptions)
   return q
 }
 
 /** intern API **/
 
-function setQueryOptions (config) {
+function setQueryOptions(config) {
   let base = {
     '_source': config.attributesToRetrieve || ['*'],
     'size': config.hitsPerPage || 10,
@@ -77,20 +95,24 @@ function setQueryOptions (config) {
   return base
 }
 
-function setQueryFacets (config) {
+function setQueryFacets(config) {
   let out = null
   if (config.facets && config.facets.length) {
-    out = {'aggregations': {}}
+    out = {
+      'aggregations': {}
+    }
     config.facets.forEach(i => {
       out.aggregations[i.field] = {
-        [i.type]: {'field': i.field}
+        [i.type]: {
+          'field': i.field
+        }
       }
     })
   }
   return out
 }
 
-function setQueryHighlight (config) {
+function setQueryHighlight(config) {
   let out = null
   if (config.highlight) {
     out = {
@@ -108,20 +130,48 @@ function setQueryHighlight (config) {
   return out
 }
 
-function setQuerySort (config) {
+function setQuerySort(config) {
   let out = null
   if (config.sortBy) {
     let order = (config.sortOrder == 'asc' || config.sortOrder == 'desc') ? config.sortOrder : 'desc'
     out = {
-      'sort': [{ [config.sortBy]: order }]
+      'sort': [{
+        [config.sortBy]: order
+      }]
     }
   }
   return out
 }
 
+function setFilters(config) {
+  let out = {}
+  if (!config.filters || !config.filters.length) return out
+
+  let filters = config.filters.map(i => {
+    let item = {}
+    if (i.type == 'range') {
+      item.range = {
+        [i.field]: {'gte': i.from, 'lte': i.to}
+      }
+    } else if (i.type == 'term') {
+      item.term = { [i.field]: i.value }
+    }
+    return item
+  })
+
+  out.filter = {
+    bool: {
+      must: filters
+    }
+  }
+  return out
+}
+
+// funct
+
 /** utility **/
 
-function setHighletedField (fields) {
+function setHighletedField(fields) {
   var out = {}
   if (fields && fields.length) {
     fields.forEach((i) => (out[i] = {}))
@@ -131,7 +181,7 @@ function setHighletedField (fields) {
   return out
 }
 
-function setFuzziness (value) {
+function setFuzziness(value) {
   let out = 0
   if (value == 'max') {
     out = 2

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
+    "dev": "nodemon server.js",
     "test": "lab -c -L",
     "test-cover": "lab -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html"
   },
@@ -30,6 +31,7 @@
     "hoek": "3.x.x",
     "inert": "^4.0.0",
     "joi": "^8.1.1",
+    "lazy.js": "^0.4.2",
     "tv": "^5.0.2",
     "vision": "^4.1.0"
   },
