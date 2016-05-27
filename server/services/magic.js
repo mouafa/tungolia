@@ -32,40 +32,14 @@ exports.querySimple = function(config) {
   return q
 }
 
-// exports.queryMatch = function(config) {
-//   let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
-//   let queryOptions = setQueryOptions(config)
-//   let typoTolerance = setFuzziness(config.typoTolerance)
-//   let q = {
-//     'query': {
-//       'multi_match': {
-//         'query': config.term,
-//         'fields': fields, // ['title^5', '_all'],
-//         'type': 'phrase_prefix',
-//         'fuzziness': typoTolerance
-//       }
-//     }
-//   }
-//   Object.assign(q, queryOptions)
-//   return q
-// }
-
 exports.queryAdvanced = function(config) {
-  let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
   let queryOptions = setQueryOptions(config)
-  let typoTolerance = setFuzziness(config.typoTolerance)
   let filters = setFilters(config)
+  let queryType = setQueryType(config)
   let q = {
     'query': {
       'filtered': {
-        'query': {
-          'multi_match': { // 'match_all'
-            'query': config.term,
-            'fields': fields, // ['title^5', '_all'],
-            'type': 'phrase_prefix',
-            'fuzziness': typoTolerance
-          }
-        }
+        'query': queryType
       }
     }
   }
@@ -151,10 +125,15 @@ function setFilters(config) {
     let item = {}
     if (i.type == 'range') {
       item.range = {
-        [i.field]: {'gte': i.from, 'lte': i.to}
+        [i.field]: {
+          'gte': i.from,
+          'lte': i.to
+        }
       }
     } else if (i.type == 'term') {
-      item.term = { [i.field]: i.value }
+      item.term = {
+        [i.field]: i.value
+      }
     }
     return item
   })
@@ -165,6 +144,25 @@ function setFilters(config) {
     }
   }
   return out
+}
+
+function setQueryType(config) {
+  if (!config.term) {
+    return {
+      'match_all': {}
+    }
+  } else {
+    let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
+    let typoTolerance = setFuzziness(config.typoTolerance)
+    return {
+      'multi_match': { // 'match_all'
+        'query': config.term,
+        'fields': fields, // ['title^5', '_all'],
+        'type': 'phrase_prefix',
+        'fuzziness': typoTolerance
+      }
+    }
+  }
 }
 
 // funct
