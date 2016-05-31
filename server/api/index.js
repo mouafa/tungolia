@@ -54,15 +54,13 @@ exports.register = function (server, options, next) {
       method: 'POST',
       path: '/search/{type}/{term?}',
       handler: handler.search,
-      config: v.join(v.cat('params', v.string('type'), v.string('term', 1, 1e4)),
-                     v.object('payload'))
+      config: v.join(v.cat('params', v.string('type'), v.string('term', 1, 1e4)))
     },
     {
       method: 'POST',
       path: '/filter/{type}/{term?}',
       handler: handler.filter,
-      config: v.join(v.cat('params', v.string('type'), v.string('term', 1, 1e4)),
-                     v.object('payload'))
+      config: v.join(v.cat('params', v.string('type'), v.string('term', 1, 1e4)))
     }
 
   ])

@@ -28,6 +28,7 @@
     "elasticsearch": "^11.0.1",
     "glue": "3.x.x",
     "hapi": "13.x.x",
+    "hapi-cors": "^1.0.1",
     "hoek": "3.x.x",
     "inert": "^4.0.0",
     "joi": "^8.1.1",

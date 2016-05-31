@@ -1,6 +1,7 @@
 'use strict'
 
 var elastic = require('../services/elastic')
+var parser = require('../services/parser')
 const Boom = require('boom')
 
 exports.get = function (req, rep) {
@@ -71,6 +72,6 @@ exports.filter = function (req, rep) {
   if (params.term) body.term = params.term
   // rep('tada')
   elastic.filter(params.type, body)
-  .then((res) => rep(res),
+  .then((res) => rep(parser(res, body.parser)),
         (err) => rep(Boom.badImplementation(err.message)))
 }

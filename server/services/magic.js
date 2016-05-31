@@ -140,7 +140,7 @@ function setFilters(config) {
 
   out.filter = {
     bool: {
-      must: filters
+      should: filters
     }
   }
   return out
