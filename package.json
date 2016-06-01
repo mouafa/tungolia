@@ -25,6 +25,7 @@
   "dependencies": {
     "boom": "^3.2.1",
     "confidence": "3.x.x",
+    "dotenv": "^2.0.0",
     "elasticsearch": "^11.0.1",
     "glue": "3.x.x",
     "hapi": "13.x.x",

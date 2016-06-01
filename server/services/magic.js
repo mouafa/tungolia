@@ -132,7 +132,7 @@ function setFilters(config) {
       must: filters
     }
   }
-  // console.log('---------', JSON.stringify(out))
+  console.log('---------', JSON.stringify(out))
   return out
 }
 
