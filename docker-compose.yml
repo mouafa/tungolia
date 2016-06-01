@@ -1,0 +1,7 @@
+elastic:
+  image: mouafa/elk:version3
+  ports:
+    - "5300:5601"
+    - "5200:9200"
+    - "5100:5044"
+    - "5000:5000"

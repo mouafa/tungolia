@@ -121,29 +121,36 @@ function setFilters(config) {
   let out = {}
   if (!config.filters || !config.filters.length) return out
 
-  let filters = config.filters.map(i => {
-    let item = {}
-    if (i.type == 'range') {
-      item.range = {
-        [i.field]: {
-          'gte': i.from,
-          'lte': i.to
-        }
-      }
-    } else if (i.type == 'term') {
-      item.term = {
-        [i.field]: i.value
-      }
-    }
-    return item
+  let filtersList = classify(config.filters, 'field')
+  let filters = filtersList.map(category => {
+    return { 'bool': { 'should': category.map(setFiltersType) } }
   })
+  // let filters = config.filters.map(setFiltersType)
 
   out.filter = {
     bool: {
-      should: filters
+      must: filters
     }
   }
+  // console.log('---------', JSON.stringify(out))
   return out
+}
+
+function setFiltersType(i) {
+  let item = {}
+  if (i.type == 'range') {
+    item.range = {
+      [i.field]: {
+        'gte': i.from || null,
+        'lte': i.to || null
+      }
+    }
+  } else if (i.type == 'term') {
+    item.term = {
+      [i.field]: i.value
+    }
+  }
+  return item
 }
 
 function setQueryType(config) {
@@ -185,6 +192,17 @@ function setFuzziness(value) {
     out = 2
   } else if (value) {
     out = 1
+  }
+  return out
+}
+
+function classify(t = [], atr) {
+  var tmp = Array(...t)
+  var out = []
+  while (tmp.length) {
+    let i = tmp[0]
+    out[out.length] = tmp.filter(j => j[atr] == i[atr])
+    tmp = tmp.filter(j => j[atr] != i[atr])
   }
   return out
 }
