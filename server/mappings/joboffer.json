@@ -1,11 +1,21 @@
 {
   "joboffer": {
     "properties": {
-      "active": {
-        "type": "boolean"
-      },
-      "city_id": {
-        "type": "long"
+      "category": {
+        "properties": {
+          "id": {
+            "type": "long"
+          },
+          "name": {
+            "type": "string",
+            "fields": {
+              "full": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
       },
       "company": {
         "properties": {
@@ -37,9 +47,6 @@
             }
           }
         }
-      },
-      "company_id": {
-        "type": "long"
       },
       "created_at": {
         "type": "date",

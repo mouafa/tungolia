@@ -18,6 +18,7 @@ module.exports = function parser(input, parser) {
 /** intern API **/
 
 function sourceParser(input) {
+  input.total = input.hits.total
   input.hits = input.hits.hits.map(i => i._source)
   return input
 }

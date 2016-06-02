@@ -19,13 +19,22 @@
             "type": "string"
           },
           "id": {
-            "type": "long"
+            "type": "long",
+            "index": "not_analyzed"
           },
           "logo": {
-            "type": "string"
+            "type": "string",
+            "index": "not_analyzed",
+            "include_in_all": false
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "fields": {
+              "full": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
           }
         }
       },
@@ -49,13 +58,7 @@
         "type": "string"
       },
       "experience": {
-        "type": "long",
-        "fields": {
-          "full": {
-            "type": "string",
-            "index": "not_analyzed"
-          }
-        }
+        "type": "long"
       },
       "id": {
         "type": "long"
@@ -113,7 +116,8 @@
             "type": "long"
           },
           "img": {
-            "type": "string"
+            "type": "string",
+            "include_in_all": false
           },
           "lastname": {
             "type": "string"
@@ -144,12 +148,13 @@
       },
       "title": {
         "type": "string",
-        "analyzer": "english",
+        "analyzer": "standard",
+        "boost": 1.5,
         "fields": {
-          "basic": {
-            "type": "string",
+          "english": {
             "boost": 1.5,
-            "analyzer": "standard"
+            "type": "string",
+            "analyzer": "english"
           }
         }
       },
