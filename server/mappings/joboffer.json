@@ -34,8 +34,8 @@
           },
           "logo": {
             "type": "string",
-            "index": "not_analyzed",
-            "include_in_all": false
+            "include_in_all": false,
+            "index": "no"
           },
           "name": {
             "type": "string",
@@ -124,7 +124,8 @@
           },
           "img": {
             "type": "string",
-            "include_in_all": false
+            "include_in_all": false,
+            "index": "no"
           },
           "lastname": {
             "type": "string"
@@ -153,6 +154,21 @@
         "type": "date",
         "format": "strict_date_optional_time||epoch_millis"
       },
+      "tags": {
+        "type": "string",
+        "fields": {
+          "full": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        }
+      },
+      "tags_suggest": {
+        "type": "completion",
+        "payloads": true,
+        "index_analyzer": "simple",
+        "search_analyzer": "simple"
+      },
       "title": {
         "type": "string",
         "analyzer": "standard",
@@ -162,6 +178,10 @@
             "boost": 1.5,
             "type": "string",
             "analyzer": "english"
+          },
+          "full": {
+            "type": "string",
+            "index": "not_analyzed"
           }
         }
       },
