@@ -163,12 +163,6 @@
           }
         }
       },
-      "tags_suggest": {
-        "type": "completion",
-        "payloads": true,
-        "index_analyzer": "simple",
-        "search_analyzer": "simple"
-      },
       "title": {
         "type": "string",
         "analyzer": "standard",
