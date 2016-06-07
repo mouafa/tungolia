@@ -23,7 +23,12 @@ const Swagger = {
     }
   }
 }
-const Tv = require('tv')
+const Tv = {
+  register: require('tv'),
+  options: {
+    authenticateEndpoint: false
+  }
+}
 const Inert = require('inert')
 const Vision = require('vision')
 

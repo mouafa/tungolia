@@ -41,20 +41,24 @@ exports.register = function(server, options, next) {
       validate: v.join(v.cat('params', v.string('type'), v.string('id', 1)))
     }
   },
-  // {
-  //   method: 'POST',
-  //   path: '/doc/{type}/{id}',
-  //   handler: handler.create,
-  //   config: v.join(v.cat('params', v.string('type'), v.string('id', 1)),
-  //                  v.object('payload'))
-  // },
   {
-    method: ['PUT', 'POST'],
+    method: 'POST',
+    path: '/doc/{type}/{id}',
+    handler: handler.create,
+    config: {
+      tags: ['api'],
+      description: 'create a new doc',
+      validate: v.join(v.cat('params', v.string('type'), v.string('id', 1)),
+        v.object('payload'))
+    }
+  },
+  {
+    method: 'PUT',
     path: '/doc/{type}/{id}',
     handler: handler.update,
     config: {
       tags: ['api'],
-      description: 'create or update a doc',
+      description: 'update an existing doc',
       validate: v.join(v.cat('params', v.string('type'), v.string('id', 1)),
         v.object('payload'))
     }

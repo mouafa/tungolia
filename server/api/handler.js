@@ -5,14 +5,12 @@ var parser = require('../services/parser')
 const Boom = require('boom')
 
 exports.test = function (req, rep) {
-  console.log('--------------here')
   rep({message: 'welcome to tungolia'})
 }
 
 exports.exists = function (req, rep) {
   let params = req.params
   if (params.id) {
-    console.log('params id', params.id)
     elastic.exists(params.type, params.id)
     .then((exists) => rep(exists))
   } else {
@@ -32,7 +30,7 @@ exports.get = function (req, rep) {
   let params = req.params
   elastic.get(params.type, params.id)
   .then((res) => rep(res),
-        (err) => rep(Boom.badImplementation(err.message)))
+        (err) => err.status == 404 ? rep(Boom.notFound(err.message)) : rep(Boom.badImplementation(err.message)))
 }
 
 exports.create = function (req, rep) {
@@ -40,22 +38,22 @@ exports.create = function (req, rep) {
   let body = req.payload
   elastic.create(params.type, params.id, body)
   .then((res) => rep(res),
-        (err) => rep(Boom.badImplementation(err.message)))
+        (err) => err.statusCode == 409 ? rep(Boom.badRequest(err.message)) : rep(Boom.badImplementation(err.message)))
 }
 
 exports.update = function (req, rep) {
   let params = req.params
   let body = req.payload
-  elastic.create(params.type, params.id, body)
+  elastic.update(params.type, params.id, body)
   .then((res) => rep(res),
-        (err) => rep(Boom.badImplementation(err.message)))
+        (err) => err.statusCode == 404 ? rep(Boom.badRequest(err.message)) : rep(Boom.badImplementation(err.message)))
 }
 
 exports.delete = function (req, rep) {
   let params = req.params
   elastic.delete(params.type, params.id)
   .then((res) => rep(res),
-        (err) => rep(Boom.badImplementation(err.message)))
+        (err) => err.status == 404 ? rep(Boom.badRequest(err.message)) : rep(Boom.badImplementation(err.message)))
 }
 
 exports.search = function (req, rep) {
