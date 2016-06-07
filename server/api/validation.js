@@ -4,9 +4,8 @@ var Joi = require('joi')
 exports.join = function (...cats) {
   var obj = {}
   cats.forEach(i => Object.assign(obj, i))
-  return {
-    validate: obj
-  }
+  // return { validate: obj }
+  return obj
 }
 
 exports.cat = function (category = 'params', ...vals) {

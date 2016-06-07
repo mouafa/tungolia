@@ -4,13 +4,15 @@ var elastic = require('../services/elastic')
 var parser = require('../services/parser')
 const Boom = require('boom')
 
-exports.get = function (req, rep) {
+exports.test = function (req, rep) {
+  console.log('--------------here')
   rep({message: 'welcome to tungolia'})
 }
 
 exports.exists = function (req, rep) {
   let params = req.params
   if (params.id) {
+    console.log('params id', params.id)
     elastic.exists(params.type, params.id)
     .then((exists) => rep(exists))
   } else {
