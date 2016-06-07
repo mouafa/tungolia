@@ -9,7 +9,8 @@ const Pack = require('./package')
 const Cors = {
   register: require('hapi-cors'),
   options: {
-    origins: ['*']
+    origins: ['*'],
+    headers: ["Accept", "Authorization", "Content-Type", "If-None-Match", "Accept-language"]
   }
 }
 const Swagger = {
