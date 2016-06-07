@@ -1,5 +1,6 @@
 'use strict'
-require('dotenv').config()
+var path = require('path')
+require('dotenv').config({path: path.join(__dirname, '/.env')})
 var eslint = require('eslint')
 var linter = new eslint.CLIEngine({})
 var formatter = require('eslint-friendly-formatter')
@@ -8,19 +9,13 @@ const Pack = require('./package')
 const Cors = {
   register: require('hapi-cors'),
   options: {
-    origins: ['http://localhost:8081']
+    origins: ['*']
   }
 }
 const Swagger = {
   register: require('hapi-swagger'),
   options: {
-    tags: [{
-      'name': 'api',
-      'description': 'API Endpoints'
-    }, {
-      'name': 'test',
-      'description': 'API Endpoints'
-    }],
+    documentationPath: '/swagger',
     jsonEditor: true,
     info: {
       'title': 'Tungolia API Endpoints',
