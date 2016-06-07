@@ -10,7 +10,7 @@ const Cors = {
   register: require('hapi-cors'),
   options: {
     origins: ['*'],
-    headers: ["Accept", "Authorization", "Content-Type", "If-None-Match", "Accept-language"]
+    headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'Accept-language']
   }
 }
 const Swagger = {
