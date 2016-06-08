@@ -6,13 +6,14 @@ var linter = new eslint.CLIEngine({})
 var formatter = require('eslint-friendly-formatter')
 var report = linter.executeOnFiles(['server/'])
 const Pack = require('./package')
-const Cors = {
-  register: require('hapi-cors'),
-  options: {
-    origins: ['*'],
-    headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'Accept-language']
-  }
-}
+// const Cors = {
+//   register: require('hapi-cors'),
+//   options: {
+//     origins: ['*'],
+//     headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'Accept-language']
+//   }
+// }
+var corsHeaders = require('hapi-cors-headers')
 const Swagger = {
   register: require('hapi-swagger'),
   options: {
@@ -42,7 +43,8 @@ const Composer = require('./index')
 
 Composer((err, server) => {
   if (err) throw err
-  server.register([Cors, Inert, Vision, Swagger, Tv], function(err) {
+  server.ext('onPreResponse', corsHeaders)
+  server.register([Inert, Vision, Swagger, Tv], function(err) {
     if (!err) {
       server.start(() => {
         require('./server/services/bootstrap')()

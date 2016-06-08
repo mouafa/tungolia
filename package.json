@@ -30,6 +30,7 @@
     "glue": "3.x.x",
     "hapi": "13.x.x",
     "hapi-cors": "^1.0.1",
+    "hapi-cors-headers": "^1.0.0",
     "hapi-swagger": "^6.1.0",
     "hoek": "3.x.x",
     "inert": "^4.0.0",
