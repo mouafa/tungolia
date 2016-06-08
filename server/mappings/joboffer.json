@@ -63,7 +63,7 @@
       },
       "description": {
         "type": "string"
-      },,
+      },
       "id": {
         "type": "long"
       },
