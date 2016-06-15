@@ -52,15 +52,6 @@
         "type": "date",
         "format": "strict_date_optional_time||epoch_millis"
       },
-      "degree": {
-        "type": "string",
-        "fields": {
-          "full": {
-            "type": "string",
-            "index": "not_analyzed"
-          }
-        }
-      },
       "description": {
         "type": "string"
       },
