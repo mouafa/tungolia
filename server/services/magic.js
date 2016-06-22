@@ -4,6 +4,7 @@
 
 exports.querySimple = function(config) {
   let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
+  console.log('fields', fields)
   let term = config.term.trim().split(' ').join('* ').concat('*')
   let queryOptions = setQueryOptions(config)
   let q = {
@@ -13,20 +14,20 @@ exports.querySimple = function(config) {
         'fields': fields, // ['title^5', '_all'],
         'default_operator': 'and'
       }
-    },
-    'suggest': {
-      'text': config.term,
-      'phraseSuggestion': {
-        'phrase': {
-          'field': 'title.basic',
-          'direct_generator': [{
-            'field': 'title.basic',
-            'suggest_mode': 'popular',
-            'min_word_length': 1
-          }]
-        }
-      }
     }
+    // 'suggest': {
+    //   'text': config.term,
+    //   'phraseSuggestion': {
+    //     'phrase': {
+    //       'field': 'title',
+    //       'direct_generator': [{
+    //         'field': 'title',
+    //         'suggest_mode': 'popular',
+    //         'min_word_length': 1
+    //       }]
+    //     }
+    //   }
+    // }
   }
   Object.assign(q, queryOptions)
   return q
@@ -44,6 +45,37 @@ exports.queryAdvanced = function(config) {
     }
   }
   Object.assign(q.query.filtered, filters)
+  Object.assign(q, queryOptions)
+  return q
+}
+
+exports.querySuggest = function(config) {
+  let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
+  console.log('fields', fields)
+  let term = config.term.trim().split(' ').join('* ').concat('*')
+  let queryOptions = setQueryOptions(config)
+  let q = {
+    'query': {
+      'query_string': {
+        'query': term,
+        'fields': fields, // ['title^5', '_all'],
+        'default_operator': 'and'
+      }
+    },
+    'suggest': {
+      'text': config.term,
+      'phraseSuggestion': {
+        'phrase': {
+          'field': 'title',
+          'direct_generator': [{
+            'field': 'title',
+            'suggest_mode': 'popular',
+            'min_word_length': 1
+          }]
+        }
+      }
+    }
+  }
   Object.assign(q, queryOptions)
   return q
 }

@@ -1,18 +1,13 @@
 'use strict'
 var path = require('path')
-require('dotenv').config({path: path.join(__dirname, '/.env')})
+require('dotenv').config({
+  path: path.join(__dirname, '/.env')
+})
 var eslint = require('eslint')
 var linter = new eslint.CLIEngine({})
 var formatter = require('eslint-friendly-formatter')
 var report = linter.executeOnFiles(['server/'])
 const Pack = require('./package')
-// const Cors = {
-//   register: require('hapi-cors'),
-//   options: {
-//     origins: ['*'],
-//     headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'Accept-language']
-//   }
-// }
 var corsHeaders = require('hapi-cors-headers')
 const Swagger = {
   register: require('hapi-swagger'),
@@ -33,6 +28,44 @@ const Tv = {
 }
 const Inert = require('inert')
 const Vision = require('vision')
+const Good = {
+  register: require('good'),
+  options: {
+    ops: {
+      interval: 1000
+    },
+    reporters: {
+      console: [{
+        module: 'good-squeeze',
+        name: 'Squeeze',
+        args: [{
+          log: '*',
+          response: '*',
+          error: '*',
+          request: '*'
+        }]
+      }, {
+        module: 'good-console'
+      }, 'stdout'],
+      http: [{
+        module: 'good-squeeze',
+        name: 'Squeeze',
+        args: [{
+          error: '*'
+        }]
+      }, {
+        module: 'good-http',
+        args: ['http://localhost:8080/debug/console', {
+          wreck: {
+            headers: {
+              'x-api-key': 12345
+            }
+          }
+        }]
+      }]
+    }
+  }
+}
 
 if (report.errorCount) {
   console.log(formatter(report.results))
@@ -44,7 +77,7 @@ const Composer = require('./index')
 Composer((err, server) => {
   if (err) throw err
   server.ext('onPreResponse', corsHeaders)
-  server.register([Inert, Vision, Swagger, Tv], function(err) {
+  server.register([Good, Inert, Vision, Swagger, Tv], function(err) {
     if (!err) {
       server.start(() => {
         require('./server/services/bootstrap')()

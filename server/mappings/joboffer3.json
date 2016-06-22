@@ -1,0 +1,169 @@
+{
+  "joboffer": {
+    "properties": {
+      "category": {
+        "properties": {
+          "id": {
+            "type": "long"
+          },
+          "name": {
+            "type": "string",
+            "fields": {
+              "full": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      },
+      "company": {
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "id": {
+            "type": "long",
+            "index": "not_analyzed"
+          },
+          "logo": {
+            "type": "string",
+            "include_in_all": false,
+            "index": "no"
+          },
+          "name": {
+            "type": "string",
+            "fields": {
+              "full": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      },
+      "created_at": {
+        "type": "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      },
+      "description": {
+        "type": "string"
+      },
+      "id": {
+        "type": "long"
+      },
+      "incentive": {
+        "type": "long"
+      },
+      "location": {
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "id": {
+            "type": "long"
+          },
+          "name": {
+            "type": "string"
+          },
+          "zone": {
+            "type": "string"
+          }
+        }
+      },
+      "profile_id": {
+        "type": "long"
+      },
+      "release_date": {
+        "type": "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      },
+      "requirements": {
+        "type": "string",
+        "fields": {
+          "full": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        }
+      },
+      "responsible": {
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "id": {
+            "type": "long"
+          },
+          "img": {
+            "type": "string",
+            "include_in_all": false,
+            "index": "no"
+          },
+          "lastname": {
+            "type": "string"
+          }
+        }
+      },
+      "salary_max": {
+        "type": "long"
+      },
+      "salary_min": {
+        "type": "long"
+      },
+      "state": {
+        "type": "string"
+      },
+      "suspend_date": {
+        "type": "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      },
+      "tags": {
+        "type": "string",
+        "fields": {
+          "full": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        }
+      },
+      "title": {
+        "type": "string",
+        "analyzer": "standard",
+        "boost": 1.5,
+        "fields": {
+          "english": {
+            "boost": 1.5,
+            "type": "string",
+            "analyzer": "english"
+          },
+          "full": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+          "autocomplete": {
+            "type": "string",
+            "analyzer": "autocomplete_analyzer",
+            "boost": 10
+          }
+        }
+      },
+      "type": {
+        "type": "string"
+      },
+      "updated_at": {
+        "type": "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      },
+      "verified": {
+        "type": "boolean"
+      }
+    }
+  }
+}

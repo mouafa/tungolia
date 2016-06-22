@@ -62,7 +62,7 @@ exports.search = function (req, rep) {
   if (params.term) body.term = params.term
   // rep('tada')
   elastic.search(params.type, body)
-  .then((res) => rep(res),
+  .then((res) => rep(parser(res, body.parser)),
         (err) => rep(Boom.badImplementation(err.message)))
 }
 
@@ -74,4 +74,14 @@ exports.filter = function (req, rep) {
   elastic.filter(params.type, body)
   .then((res) => rep(parser(res, body.parser)),
         (err) => rep(Boom.badImplementation(err.message)))
+}
+
+exports.suggest = function (req, rep) {
+  let params = req.params
+  let body = req.payload
+  if (params.term) body.term = params.term
+  // rep('tada')
+  elastic.suggest(params.type, body)
+  .then((res) => rep(parser(res, body.parser)),
+        (err) => console.log('err', err))
 }

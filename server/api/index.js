@@ -89,6 +89,15 @@ exports.register = function(server, options, next) {
       description: 'filter docs',
       validate: v.join(v.cat('params', v.string('type'), v.string('term', 1, 1e4)))
     }
+  }, {
+    method: 'POST',
+    path: '/suggest/{type}/{term?}',
+    handler: handler.suggest,
+    config: {
+      tags: ['api'],
+      description: 'suggest docs',
+      validate: v.join(v.cat('params', v.string('type'), v.string('term', 1, 1e4)))
+    }
   }
   ])
 

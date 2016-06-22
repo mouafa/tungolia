@@ -109,6 +109,25 @@ exports.filter = function(type, config) {
   })
 }
 
+exports.suggest = function(type, config) {
+  // console.log('query', m.querySimple(query))
+  // let query = m.queryAdvanced(config)
+  // let fields = config.attributesToRetrieve
+  console.log('config', config)
+  return client.suggest({
+    index: mainIndex,
+    type: type,
+    body: {
+      docsuggest: {
+        text: config.term,
+        term: {
+          field: 'title'
+        }
+      }
+    }
+  })
+}
+
 exports.getMapping = function(type) {
   return client.indices.getMapping({
     index: mainIndex,
