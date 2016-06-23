@@ -164,7 +164,6 @@ function setFilters(config) {
       must: filters
     }
   }
-  console.log('---------', JSON.stringify(out))
   return out
 }
 
@@ -192,13 +191,13 @@ function setQueryType(config) {
     }
   } else {
     let fields = config.attributesToSearch ? config.attributesToSearch.map((i, c, l) => `${i}^${l.length - c}`) : ['_all']
-    let typoTolerance = setFuzziness(config.typoTolerance)
+    // let typoTolerance = setFuzziness(config.typoTolerance)
     return {
       'multi_match': { // 'match_all'
         'query': config.term,
         'fields': fields, // ['title^5', '_all'],
-        'type': 'phrase_prefix',
-        'fuzziness': typoTolerance
+        'type': 'phrase_prefix'
+        // 'fuzziness': typoTolerance
       }
     }
   }
@@ -218,15 +217,15 @@ function setHighletedField(fields) {
   return out
 }
 
-function setFuzziness(value) {
-  let out = 0
-  if (value == 'max') {
-    out = 2
-  } else if (value) {
-    out = 1
-  }
-  return out
-}
+// function setFuzziness(value) {
+//   let out = 0
+//   if (value == 'max') {
+//     out = 2
+//   } else if (value == 'min') {
+//     out = 1
+//   }
+//   return out
+// }
 
 function classify(t = [], atr) {
   var tmp = Array(...t)

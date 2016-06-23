@@ -13,3 +13,4 @@ search config:
 ### facets                / implemented    =>    "facets" : [{"field": "job_type", "type": "terms"},{"field": "incentive", "type": "stats"}]
 ### filters               / implemented    =>    "filters" : [{"field": "salary_min", "type": "range", "from": 1000, "to": 2000},
                                                               {"field": "salary_type", "type": "term", "value" : "Per month"}]
+### parser                / implemented    =>    "hits" || "source"

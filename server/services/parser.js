@@ -10,6 +10,8 @@ module.exports = function parser(input, parser) {
       return sourceParser(input)
     case 'hits':
       return hitsParser(sourceParser(input))
+    case 'highlight':
+      return highlightParser(input)
     default:
       return input
   }
@@ -37,4 +39,27 @@ function basicParser(input = {}) {
   }
   out.hits = input.hits
   return out
+}
+
+function highlightParser(input) {
+  var hits = input.hits.hits
+  return {
+    total: input.hits.total,
+    hits: hits.map(mergeHighlight)
+  }
+}
+
+function mergeHighlight(item) {
+  var source = item._source
+  var highlight = item.highlight
+  var out = {}
+  lazy(source).each((val, key) => {
+    // source[key] = highlight[key][0]
+    out[key] = {
+      source: source[key],
+      highlight: highlight[key][0]
+    }
+  })
+  return out
+  // return source
 }
