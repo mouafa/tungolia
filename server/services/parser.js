@@ -56,8 +56,11 @@ function mergeHighlight(item) {
   let out = {}
   Object.keys(source).forEach((key) => {
     out[key] = {
-      source: source[key],
-      highlight: source[key] ? highlight[key][0] : source[key]
+      source: source[key]
+      // highlight: source[key] ? highlight[key][0] : source[key]
+    }
+    if (Array.isArray(highlight[key]) && highlight[key][0]) {
+      out[key].highlight = highlight[key][0]
     }
   })
   return out
