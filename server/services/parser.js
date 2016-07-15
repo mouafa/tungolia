@@ -43,21 +43,21 @@ function basicParser(input = {}) {
 
 function highlightParser(input) {
   var hits = input.hits.hits
-  return {
+  var out = {
     total: input.hits.total,
     hits: hits.map(mergeHighlight)
   }
+  return out
 }
 
 function mergeHighlight(item) {
-  var source = item._source
-  var highlight = item.highlight
-  var out = {}
-  lazy(source).each((val, key) => {
-    // source[key] = highlight[key][0]
+  let source = item._source
+  let highlight = item.highlight
+  let out = {}
+  Object.keys(source).forEach((key) => {
     out[key] = {
       source: source[key],
-      highlight: highlight[key][0]
+      highlight: source[key] ? highlight[key][0] : source[key]
     }
   })
   return out
