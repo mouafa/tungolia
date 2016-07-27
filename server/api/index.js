@@ -1,9 +1,11 @@
+/* This file describe the API endpoints */
+/* further datails available in **swagger** */
+/* check the server url + `/swagger` */
+
 'use strict'
-// var Joi = require('joi');
+
 var handler = require('./handler')
 var v = require('./validation')
-  // require('../services/elastic')
-  // console.log('validate', v.join(v.cat('params', v.string('type', 3, 10))))
 
 exports.register = function(server, options, next) {
   server.route([{

@@ -1,0 +1,110 @@
+<!DOCTYPE html><html><head><title>index.js</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="../../docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="../../index.html" class="source"><span class="file_name">README</span></a><a href="../../server/api/handler.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">handler.js</span></a><a href="../../server/api/index.js.html" class="source selected"><span class="base_path">server / api / </span><span class="file_name">index.js</span></a><a href="../../server/api/validation.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">validation.js</span></a><a href="../../server/mappings/index.js.html" class="source "><span class="base_path">server / mappings / </span><span class="file_name">index.js</span></a><a href="../../server/services/bootstrap.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">bootstrap.js</span></a><a href="../../server/services/elastic.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">elastic.js</span></a><a href="../../server/services/magic.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">magic.js</span></a><a href="../../server/services/parser.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">parser.js</span></a><a href="../../server/services/util.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">util.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"><h1>index.js</h1><div class="filepath">server/api/</div></th><th class="code"></th></tr></thead><tbody><tr id="section-1"><td class="docs"><div class="pilwrap"><a href="#section-1" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>This file describe the API endpoints</p></div><div class="body"></div></div><div class="dox"><div class="summary"><p>further datails available in <strong>swagger</strong></p></div><div class="body"></div></div><div class="dox"><div class="summary"><p>check the server url + <code>/swagger</code></p></div><div class="body"></div></div>
+</td><td class="code"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span>
+
+<span class="kd">var</span> <span class="nx">handler</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./handler&#39;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">v</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./validation&#39;</span><span class="p">)</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">register</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">server</span><span class="p">,</span> <span class="nx">options</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">server</span><span class="p">.</span><span class="nx">route</span><span class="p">([{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">test</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/exists/{type}/{id?}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">exists</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;check if type or doc exists&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/count/{type}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">count</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;count the docs for a type&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/doc/{type}/{id}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">get</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;get doc by type and id&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/doc/{type}/{id}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">create</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;create a new doc&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="nx">v</span><span class="p">.</span><span class="nx">object</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;PUT&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/doc/{type}/{id}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">update</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;update an existing doc&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="nx">v</span><span class="p">.</span><span class="nx">object</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/doc/{type}/{id}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="k">delete</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;delete a doc&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/search/{type}/{term?}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">search</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;search for docs&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;term&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="nx">e4</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/filter/{type}/{term?}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">filter</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;filter docs&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;term&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="nx">e4</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;/suggest/{type}/{term?}&#39;</span><span class="p">,</span>
+    <span class="nx">handler</span><span class="o">:</span> <span class="nx">handler</span><span class="p">.</span><span class="nx">suggest</span><span class="p">,</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span>
+      <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;suggest docs&#39;</span><span class="p">,</span>
+      <span class="nx">validate</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">cat</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="nx">v</span><span class="p">.</span><span class="nx">string</span><span class="p">(</span><span class="s1">&#39;term&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="nx">e4</span><span class="p">)))</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="p">])</span>
+
+  <span class="nx">next</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">register</span><span class="p">.</span><span class="nx">attributes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;api&#39;</span>
+<span class="p">}</span>
+
+</pre></div></td></tr></tbody></table><div id="generated">generated Wed Jul 27 2016 18:14:28 GMT+0100 (CET)  </div></div></body></html>

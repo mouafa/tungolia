@@ -1,0 +1,224 @@
+<!DOCTYPE html><html><head><title>magic.js</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="../../docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="../../index.html" class="source"><span class="file_name">README</span></a><a href="../../server/api/handler.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">handler.js</span></a><a href="../../server/api/index.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">index.js</span></a><a href="../../server/api/validation.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">validation.js</span></a><a href="../../server/mappings/index.js.html" class="source "><span class="base_path">server / mappings / </span><span class="file_name">index.js</span></a><a href="../../server/services/bootstrap.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">bootstrap.js</span></a><a href="../../server/services/elastic.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">elastic.js</span></a><a href="../../server/services/magic.js.html" class="source selected"><span class="base_path">server / services / </span><span class="file_name">magic.js</span></a><a href="../../server/services/parser.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">parser.js</span></a><a href="../../server/services/util.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">util.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"><h1>magic.js</h1><div class="filepath">server/services/</div></th><th class="code"></th></tr></thead><tbody><tr id="section-1"><td class="docs"><div class="pilwrap"><a href="#section-1" class="pilcrow">&#182;</a></div>
+</td><td class="code"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span></pre></div></td></tr><tr id="section-2"><td class="docs"><div class="pilwrap"><a href="#section-2" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>exposed API *</p></div><div class="body"></div></div>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">querySimple</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">fields</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToSearch</span> <span class="o">?</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToSearch</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">i</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">l</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">i</span><span class="p">}</span><span class="o">^</span><span class="nx">$</span><span class="p">{</span><span class="nx">l</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">c</span><span class="p">}</span><span class="err">`</span><span class="p">)</span> <span class="o">:</span> <span class="p">[</span><span class="s1">&#39;_all&#39;</span><span class="p">]</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fields&#39;</span><span class="p">,</span> <span class="nx">fields</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">term</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">term</span><span class="p">.</span><span class="nx">trim</span><span class="p">().</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;* &#39;</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">queryOptions</span> <span class="o">=</span> <span class="nx">setQueryOptions</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">q</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;query_string&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="nx">term</span><span class="p">,</span>
+        <span class="s1">&#39;fields&#39;</span><span class="o">:</span> <span class="nx">fields</span><span class="p">,</span> <span class="c1">// [&#39;title^5&#39;, &#39;_all&#39;],</span>
+        <span class="s1">&#39;default_operator&#39;</span><span class="o">:</span> <span class="s1">&#39;and&#39;</span>
+      <span class="p">}</span>
+    <span class="p">}</span></pre></div></td></tr><tr id="section-3"><td class="docs"><div class="pilwrap"><a href="#section-3" class="pilcrow">&#182;</a></div><p>'suggest': {
+  'text': config.term,
+  'phraseSuggestion': {
+    'phrase': {
+      'field': 'title',
+      'direct<em>generator': [{
+        'field': 'title',
+        'suggest</em>mode': 'popular',
+        'min<em>word</em>length': 1
+      }]
+    }
+  }
+}</p>
+</td><td class="code"><div class="highlight"><pre>  <span class="p">}</span>
+  <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">queryOptions</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">q</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">queryAdvanced</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">queryOptions</span> <span class="o">=</span> <span class="nx">setQueryOptions</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">filters</span> <span class="o">=</span> <span class="nx">setFilters</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">queryType</span> <span class="o">=</span> <span class="nx">setQueryType</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">q</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;filtered&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="nx">queryType</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">q</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">filtered</span><span class="p">,</span> <span class="nx">filters</span><span class="p">)</span>
+  <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">queryOptions</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">q</span>
+<span class="p">}</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">querySuggest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">fields</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToSearch</span> <span class="o">?</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToSearch</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">i</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">l</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">i</span><span class="p">}</span><span class="o">^</span><span class="nx">$</span><span class="p">{</span><span class="nx">l</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">c</span><span class="p">}</span><span class="err">`</span><span class="p">)</span> <span class="o">:</span> <span class="p">[</span><span class="s1">&#39;_all&#39;</span><span class="p">]</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fields&#39;</span><span class="p">,</span> <span class="nx">fields</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">term</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">term</span><span class="p">.</span><span class="nx">trim</span><span class="p">().</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;* &#39;</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">queryOptions</span> <span class="o">=</span> <span class="nx">setQueryOptions</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">q</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;query_string&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="nx">term</span><span class="p">,</span>
+        <span class="s1">&#39;fields&#39;</span><span class="o">:</span> <span class="nx">fields</span><span class="p">,</span> <span class="c1">// [&#39;title^5&#39;, &#39;_all&#39;],</span>
+        <span class="s1">&#39;default_operator&#39;</span><span class="o">:</span> <span class="s1">&#39;and&#39;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;suggest&#39;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;text&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">term</span><span class="p">,</span>
+      <span class="s1">&#39;phraseSuggestion&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;phrase&#39;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s1">&#39;field&#39;</span><span class="o">:</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;direct_generator&#39;</span><span class="o">:</span> <span class="p">[{</span>
+            <span class="s1">&#39;field&#39;</span><span class="o">:</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;suggest_mode&#39;</span><span class="o">:</span> <span class="s1">&#39;popular&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;min_word_length&#39;</span><span class="o">:</span> <span class="mi">1</span>
+          <span class="p">}]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">queryOptions</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">q</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>intern API *</p></div><div class="body"></div></div>
+</td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">setQueryOptions</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">base</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;_source&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToRetrieve</span> <span class="o">||</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;size&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">hitsPerPage</span> <span class="o">||</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;from&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">page</span> <span class="o">?</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">config</span><span class="p">.</span><span class="nx">hitsPerPage</span> <span class="o">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+
+  <span class="kd">let</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">setQueryFacets</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">f</span><span class="p">)</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">base</span><span class="p">,</span> <span class="nx">f</span><span class="p">)</span>
+
+  <span class="kd">let</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">setQueryHighlight</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">h</span><span class="p">)</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">base</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
+
+  <span class="kd">let</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">setQuerySort</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">base</span><span class="p">,</span> <span class="nx">s</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="nx">base</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setQueryFacets</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">out</span> <span class="o">=</span> <span class="kc">null</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">facets</span> <span class="o">&amp;&amp;</span> <span class="nx">config</span><span class="p">.</span><span class="nx">facets</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">out</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;aggregations&#39;</span><span class="o">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+    <span class="nx">config</span><span class="p">.</span><span class="nx">facets</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">i</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">out</span><span class="p">.</span><span class="nx">aggregations</span><span class="p">[</span><span class="nx">i</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">[</span><span class="nx">i</span><span class="p">.</span><span class="nx">type</span><span class="p">]</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s1">&#39;field&#39;</span><span class="o">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">field</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">out</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setQueryHighlight</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">out</span> <span class="o">=</span> <span class="kc">null</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">highlight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">out</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;highlight&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;type&#39;</span><span class="o">:</span> <span class="s1">&#39;plain&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;require_field_match&#39;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s1">&#39;no_match_size&#39;</span><span class="o">:</span> <span class="mi">100000</span><span class="p">,</span>
+        <span class="s1">&#39;pre_tags&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">highlightPreTag</span> <span class="o">?</span> <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">highlightPreTag</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;b&gt;&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;post_tags&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">highlightPostTag</span> <span class="o">?</span> <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">highlightPostTag</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;/b&gt;&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;number_of_fragments&#39;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;fields&#39;</span><span class="o">:</span> <span class="nx">setHighletedField</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">attributesToRetrieve</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">out</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setQuerySort</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">out</span> <span class="o">=</span> <span class="kc">null</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">sortBy</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">order</span> <span class="o">=</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">sortOrder</span> <span class="o">==</span> <span class="s1">&#39;asc&#39;</span> <span class="o">||</span> <span class="nx">config</span><span class="p">.</span><span class="nx">sortOrder</span> <span class="o">==</span> <span class="s1">&#39;desc&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="nx">config</span><span class="p">.</span><span class="nx">sortOrder</span> <span class="o">:</span> <span class="s1">&#39;desc&#39;</span>
+    <span class="nx">out</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;sort&#39;</span><span class="o">:</span> <span class="p">[{</span>
+        <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">sortBy</span><span class="p">]</span><span class="o">:</span> <span class="nx">order</span>
+      <span class="p">}]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">out</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setFilters</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">out</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">filters</span> <span class="o">||</span> <span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">filters</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="k">return</span> <span class="nx">out</span>
+
+  <span class="kd">let</span> <span class="nx">filtersList</span> <span class="o">=</span> <span class="nx">classify</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">filters</span><span class="p">,</span> <span class="s1">&#39;field&#39;</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">filters</span> <span class="o">=</span> <span class="nx">filtersList</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">category</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;bool&#39;</span><span class="o">:</span> <span class="p">{</span> <span class="s1">&#39;should&#39;</span><span class="o">:</span> <span class="nx">category</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">setFiltersType</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="p">})</span></pre></div></td></tr><tr id="section-5"><td class="docs"><div class="pilwrap"><a href="#section-5" class="pilcrow">&#182;</a></div><p>let filters = config.filters.map(setFiltersType)</p>
+</td><td class="code"><div class="highlight"><pre>  <span class="nx">out</span><span class="p">.</span><span class="nx">filter</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">bool</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">must</span><span class="o">:</span> <span class="nx">filters</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">out</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setFiltersType</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">item</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;range&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">item</span><span class="p">.</span><span class="nx">range</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">[</span><span class="nx">i</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;gte&#39;</span><span class="o">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">from</span> <span class="o">||</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s1">&#39;lte&#39;</span><span class="o">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">to</span> <span class="o">||</span> <span class="kc">null</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;term&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">item</span><span class="p">.</span><span class="nx">term</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">[</span><span class="nx">i</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span><span class="o">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">value</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">item</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setQueryType</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">term</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="s1">&#39;match_all&#39;</span><span class="o">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">fields</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToSearch</span> <span class="o">?</span> <span class="nx">config</span><span class="p">.</span><span class="nx">attributesToSearch</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">i</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">l</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">i</span><span class="p">}</span><span class="o">^</span><span class="nx">$</span><span class="p">{</span><span class="nx">l</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">c</span><span class="p">}</span><span class="err">`</span><span class="p">)</span> <span class="o">:</span> <span class="p">[</span><span class="s1">&#39;_all&#39;</span><span class="p">]</span></pre></div></td></tr><tr id="section-6"><td class="docs"><div class="pilwrap"><a href="#section-6" class="pilcrow">&#182;</a></div><p>let typoTolerance = setFuzziness(config.typoTolerance)</p>
+</td><td class="code"><div class="highlight"><pre>    <span class="k">return</span> <span class="p">{</span>
+      <span class="s1">&#39;multi_match&#39;</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// &#39;match_all&#39;</span>
+        <span class="s1">&#39;query&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">term</span><span class="p">,</span>
+        <span class="s1">&#39;fields&#39;</span><span class="o">:</span> <span class="nx">fields</span><span class="p">,</span> <span class="c1">// [&#39;title^5&#39;, &#39;_all&#39;],</span>
+        <span class="s1">&#39;type&#39;</span><span class="o">:</span> <span class="s1">&#39;phrase_prefix&#39;</span></pre></div></td></tr><tr id="section-7"><td class="docs"><div class="pilwrap"><a href="#section-7" class="pilcrow">&#182;</a></div><p>'fuzziness': typoTolerance</p>
+</td><td class="code"><div class="highlight"><pre>      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-8"><td class="docs"><div class="pilwrap"><a href="#section-8" class="pilcrow">&#182;</a></div><p>funct</p>
+</td><td class="code"><div class="highlight"><pre></pre></div></td></tr><tr id="section-9"><td class="docs"><div class="pilwrap"><a href="#section-9" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>utility *</p></div><div class="body"></div></div>
+</td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">setHighletedField</span><span class="p">(</span><span class="nx">fields</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">fields</span> <span class="o">&amp;&amp;</span> <span class="nx">fields</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fields</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">out</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}))</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">out</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">out</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-10"><td class="docs"><div class="pilwrap"><a href="#section-10" class="pilcrow">&#182;</a></div><p>function setFuzziness(value) {
+  let out = 0
+  if (value == 'max') {
+    out = 2
+  } else if (value == 'min') {
+    out = 1
+  }
+  return out
+}</p>
+</td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">classify</span><span class="p">(</span><span class="nx">t</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">atr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(...</span><span class="nx">t</span><span class="p">)</span>
+  <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">tmp</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nx">out</span><span class="p">[</span><span class="nx">out</span><span class="p">.</span><span class="nx">length</span><span class="p">]</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">j</span> <span class="o">=&gt;</span> <span class="nx">j</span><span class="p">[</span><span class="nx">atr</span><span class="p">]</span> <span class="o">==</span> <span class="nx">i</span><span class="p">[</span><span class="nx">atr</span><span class="p">])</span>
+    <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">j</span> <span class="o">=&gt;</span> <span class="nx">j</span><span class="p">[</span><span class="nx">atr</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">i</span><span class="p">[</span><span class="nx">atr</span><span class="p">])</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">out</span>
+<span class="p">}</span>
+
+</pre></div></td></tr></tbody></table><div id="generated">generated Wed Jul 27 2016 18:14:29 GMT+0100 (CET)  </div></div></body></html>
