@@ -1,71 +1,66 @@
-<!DOCTYPE html><html><head><title>elastic.js</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="../../docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="../../index.html" class="source"><span class="file_name">README</span></a><a href="../../server/api/handler.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">handler.js</span></a><a href="../../server/api/index.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">index.js</span></a><a href="../../server/api/validation.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">validation.js</span></a><a href="../../server/mappings/index.js.html" class="source "><span class="base_path">server / mappings / </span><span class="file_name">index.js</span></a><a href="../../server/services/bootstrap.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">bootstrap.js</span></a><a href="../../server/services/elastic.js.html" class="source selected"><span class="base_path">server / services / </span><span class="file_name">elastic.js</span></a><a href="../../server/services/magic.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">magic.js</span></a><a href="../../server/services/parser.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">parser.js</span></a><a href="../../server/services/util.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">util.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"><h1>elastic.js</h1><div class="filepath">server/services/</div></th><th class="code"></th></tr></thead><tbody><tr id="section-1"><td class="docs"><div class="pilwrap"><a href="#section-1" class="pilcrow">&#182;</a></div>
-</td><td class="code"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span>
-<span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./magic&#39;</span><span class="p">)</span>
-<span class="kd">var</span> <span class="nx">elasticsearch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;elasticsearch&#39;</span><span class="p">)</span>
-<span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">elasticsearch</span><span class="p">.</span><span class="nx">Client</span><span class="p">({</span>
-  <span class="nx">host</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ELASTIC_URL</span><span class="p">,</span> <span class="c1">// &#39;localhost:5200&#39;,</span></pre></div></td></tr><tr id="section-2"><td class="docs"><div class="pilwrap"><a href="#section-2" class="pilcrow">&#182;</a></div><p>log: 'trace'</p>
-</td><td class="code"><div class="highlight"><pre>  <span class="nx">log</span><span class="o">:</span> <span class="s1">&#39;error&#39;</span>
-<span class="p">})</span>
-<span class="kr">const</span> <span class="nx">mainIndex</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MAIN_INDICE</span> <span class="c1">// &#39;tungolia&#39;</span>
-
-<span class="nx">client</span>
+<!DOCTYPE html><html><head><title>elastic.js</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="../../docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="../../index.html" class="source"><span class="file_name">README</span></a><a href="../../server/api/handler.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">handler.js</span></a><a href="../../server/api/index.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">index.js</span></a><a href="../../server/api/validation.js.html" class="source "><span class="base_path">server / api / </span><span class="file_name">validation.js</span></a><a href="../../server/mappings/index.js.html" class="source "><span class="base_path">server / mappings / </span><span class="file_name">index.js</span></a><a href="../../server/services/bootstrap.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">bootstrap.js</span></a><a href="../../server/services/elastic.js.html" class="source selected"><span class="base_path">server / services / </span><span class="file_name">elastic.js</span></a><a href="../../server/services/magic.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">magic.js</span></a><a href="../../server/services/parser.js.html" class="source "><span class="base_path">server / services / </span><span class="file_name">parser.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"><h1>elastic.js</h1><div class="filepath">server/services/</div></th><th class="code"></th></tr></thead><tbody><tr id="section-1"><td class="docs"><div class="pilwrap"><a href="#section-1" class="pilcrow">&#182;</a></div>
+</td><td class="code"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span></pre></div></td></tr><tr id="section-2"><td class="docs"><div class="pilwrap"><a href="#section-2" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><h3>This file export the needed ES operations</h3></div><div class="body"></div></div>
+</td><td class="code"><div class="highlight"><pre></pre></div></td></tr><tr id="section-3"><td class="docs"><div class="pilwrap"><a href="#section-3" class="pilcrow">&#182;</a></div><p>import the ES query builder service</p>
+</td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./magic&#39;</span><span class="p">)</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><p>import the ES node library</p>
+</td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">elasticsearch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;elasticsearch&#39;</span><span class="p">)</span></pre></div></td></tr><tr id="section-5"><td class="docs"><div class="pilwrap"><a href="#section-5" class="pilcrow">&#182;</a></div><p>establish ES connection</p>
+</td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">elasticsearch</span><span class="p">.</span><span class="nx">Client</span><span class="p">({</span>
+  <span class="nx">host</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ELASTIC_URL</span><span class="p">,</span> <span class="c1">// &#39;localhost:5200&#39;,</span></pre></div></td></tr><tr id="section-6"><td class="docs"><div class="pilwrap"><a href="#section-6" class="pilcrow">&#182;</a></div><p>determine logging type, <code>error</code> for <strong>production</strong> and <code>trace</code> for <strong>development</strong></p>
+</td><td class="code"><div class="highlight"><pre>  <span class="nx">log</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="s1">&#39;production&#39;</span> <span class="o">?</span> <span class="s1">&#39;error&#39;</span> <span class="o">:</span> <span class="s1">&#39;trace&#39;</span>
+<span class="p">})</span></pre></div></td></tr><tr id="section-7"><td class="docs"><div class="pilwrap"><a href="#section-7" class="pilcrow">&#182;</a></div><p>set the main indice name from .env, default to <code>tungolia</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="kr">const</span> <span class="nx">mainIndex</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MAIN_INDICE</span> <span class="o">||</span> <span class="s1">&#39;tungolia&#39;</span></pre></div></td></tr><tr id="section-8"><td class="docs"><div class="pilwrap"><a href="#section-8" class="pilcrow">&#182;</a></div><p>pinging ES cluster for health checking</p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">client</span>
   <span class="p">.</span><span class="nx">ping</span><span class="p">({</span>
     <span class="nx">requestTimeout</span><span class="o">:</span> <span class="mi">30000</span><span class="p">,</span>
     <span class="nx">hello</span><span class="o">:</span> <span class="s1">&#39;elasticsearch&#39;</span>
   <span class="p">})</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;{{{{{{{ elasticsearch is shining }}}}}}&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;###### elasticsearch cluster is down! ######&#39;</span><span class="p">))</span></pre></div></td></tr><tr id="section-3"><td class="docs"><div class="pilwrap"><a href="#section-3" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>exposed API *</p></div><div class="body"></div></div>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;{{{{{{{ elasticsearch is shining }}}}}}&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;###### elasticsearch cluster is down! ######&#39;</span><span class="p">))</span></pre></div></td></tr><tr id="section-9"><td class="docs"><div class="pilwrap"><a href="#section-9" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><h3>Exposed API</h3></div><div class="body"></div></div>
+</td><td class="code"><div class="highlight"><pre></pre></div></td></tr><tr id="section-10"><td class="docs"><div class="pilwrap"><a href="#section-10" class="pilcrow">&#182;</a></div><p>allow indice creation</p>
 </td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">createIndex</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">existsIndice</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-11"><td class="docs"><div class="pilwrap"><a href="#section-11" class="pilcrow">&#182;</a></div><p>check the existing of <code>mainIndex</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">existsIndice</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">exists</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">existsType</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-12"><td class="docs"><div class="pilwrap"><a href="#section-12" class="pilcrow">&#182;</a></div><p>check the existing of <code>type</code> in <code>mainIndex</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">existsType</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">existsType</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">exists</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-13"><td class="docs"><div class="pilwrap"><a href="#section-13" class="pilcrow">&#182;</a></div><p>check the existing of document by <code>type</code> &amp; <code>id</code> in <code>mainIndex</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">exists</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">exists</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-14"><td class="docs"><div class="pilwrap"><a href="#section-14" class="pilcrow">&#182;</a></div><p>count the existing documents for particular <code>type</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">count</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-15"><td class="docs"><div class="pilwrap"><a href="#section-15" class="pilcrow">&#182;</a></div><p>get an existing document by its <code>type</code> &amp; <code>id</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">get</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-16"><td class="docs"><div class="pilwrap"><a href="#section-16" class="pilcrow">&#182;</a></div><p>create a new document in <code>mainIndex</code> by its <code>type</code> &amp; <code>id</code> and <code>body</code> content</p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">body</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-17"><td class="docs"><div class="pilwrap"><a href="#section-17" class="pilcrow">&#182;</a></div><p>update an old document by a new one, must provide document <code>type</code>, <code>id</code> and the new <code>body</code>
+<em>* the new doc must follow the mapping of the old one *</em></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
@@ -74,37 +69,63 @@
       <span class="nx">doc</span><span class="o">:</span> <span class="nx">body</span>
     <span class="p">}</span>
   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="k">delete</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-18"><td class="docs"><div class="pilwrap"><a href="#section-18" class="pilcrow">&#182;</a></div><p>delete an existing document by its <code>type</code> and <code>id</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="k">delete</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="k">delete</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span>
   <span class="p">})</span>
-<span class="p">}</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-19"><td class="docs"><div class="pilwrap"><a href="#section-19" class="pilcrow">&#182;</a></div><p>get the mapping of particular <code>type</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">getMapping</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">getMapping</span><span class="p">({</span>
+    <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span>
+  <span class="p">})</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-20"><td class="docs"><div class="pilwrap"><a href="#section-20" class="pilcrow">&#182;</a></div><p>set the mapping of particular <code>type</code>
+<code>map</code> contain the mapping data, see <strong>mappings</strong> for more details</p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">putMapping</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">map</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">putMapping</span><span class="p">({</span>
+    <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
+    <span class="nx">body</span><span class="o">:</span> <span class="nx">map</span>
+  <span class="p">})</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-21"><td class="docs"><div class="pilwrap"><a href="#section-21" class="pilcrow">&#182;</a></div><h2>Search documents</h2>
 
-<span class="nx">exports</span><span class="p">.</span><span class="nx">search</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><p>console.log('query', m.querySimple(query))</p>
-</td><td class="code"><div class="highlight"><pre>  <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">querySimple</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span></pre></div></td></tr><tr id="section-5"><td class="docs"><div class="pilwrap"><a href="#section-5" class="pilcrow">&#182;</a></div><p>let fields = config.attributesToRetrieve</p>
-</td><td class="code"><div class="highlight"><pre>  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span>
+<p>the search feature allow the searching of documents in particular <code>type</code> by rules supplied in <code>config</code></p>
+
+<blockquote>
+  <p><strong><code>config</code> must follow the spec</strong></p>
+</blockquote>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">search</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-22"><td class="docs"><div class="pilwrap"><a href="#section-22" class="pilcrow">&#182;</a></div><p><em>Magic</em> will build the Search quiryDSL from the supplied <code>config</code></p>
+</td><td class="code"><div class="highlight"><pre>  <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">querySimple</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">query</span>
   <span class="p">})</span>
-<span class="p">}</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-23"><td class="docs"><div class="pilwrap"><a href="#section-23" class="pilcrow">&#182;</a></div><h2>Filter documents</h2>
 
-<span class="nx">exports</span><span class="p">.</span><span class="nx">filter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-6"><td class="docs"><div class="pilwrap"><a href="#section-6" class="pilcrow">&#182;</a></div><p>console.log('query', m.querySimple(query))</p>
-</td><td class="code"><div class="highlight"><pre>  <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">queryAdvanced</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span></pre></div></td></tr><tr id="section-7"><td class="docs"><div class="pilwrap"><a href="#section-7" class="pilcrow">&#182;</a></div><p>let fields = config.attributesToRetrieve</p>
-</td><td class="code"><div class="highlight"><pre>  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span>
+<p>the filter feature is more advanced than search, it allow filtring documents with advanced options</p>
+
+<blockquote>
+  <p><strong><code>config</code> must follow the spec</strong></p>
+</blockquote>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">filter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-24"><td class="docs"><div class="pilwrap"><a href="#section-24" class="pilcrow">&#182;</a></div><p><em>Magic</em> will build the Filter quiryDSL from the supplied <code>config</code></p>
+</td><td class="code"><div class="highlight"><pre>  <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">queryAdvanced</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">query</span>
   <span class="p">})</span>
-<span class="p">}</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-25"><td class="docs"><div class="pilwrap"><a href="#section-25" class="pilcrow">&#182;</a></div><h2>Suggest documents</h2>
 
-<span class="nx">exports</span><span class="p">.</span><span class="nx">suggest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-8"><td class="docs"><div class="pilwrap"><a href="#section-8" class="pilcrow">&#182;</a></div><p>console.log('query', m.querySimple(query))
-let query = m.queryAdvanced(config)
-let fields = config.attributesToRetrieve</p>
+<p><strong>this feature is not yet ready to use</strong></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">suggest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-26"><td class="docs"><div class="pilwrap"><a href="#section-26" class="pilcrow">&#182;</a></div><!-- console.log('query', m.querySimple(query)) -->
+
+<!-- let query = m.queryAdvanced(config) -->
+
+<!-- let fields = config.attributesToRetrieve -->
 </td><td class="code"><div class="highlight"><pre>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">suggest</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
@@ -120,19 +141,4 @@ let fields = config.attributesToRetrieve</p>
   <span class="p">})</span>
 <span class="p">}</span>
 
-<span class="nx">exports</span><span class="p">.</span><span class="nx">getMapping</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">getMapping</span><span class="p">({</span>
-    <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
-    <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span>
-  <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="nx">exports</span><span class="p">.</span><span class="nx">putMapping</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">map</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">putMapping</span><span class="p">({</span>
-    <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
-    <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
-    <span class="nx">body</span><span class="o">:</span> <span class="nx">map</span>
-  <span class="p">})</span>
-<span class="p">}</span>
-
-</pre></div></td></tr></tbody></table><div id="generated">generated Wed Jul 27 2016 18:14:29 GMT+0100 (CET)  </div></div></body></html>
+</pre></div></td></tr></tbody></table><div id="generated">generated Thu Jul 28 2016 17:49:14 GMT+0100 (CET)  </div></div></body></html>

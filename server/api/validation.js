@@ -1,13 +1,18 @@
 'use strict'
+/** ### This file generate validation with Joi library, common used in router handler params and data */
+
 var Joi = require('joi')
 
+/* join all validation */
 exports.join = function (...cats) {
   var obj = {}
   cats.forEach(i => Object.assign(obj, i))
-  // return { validate: obj }
+  // <!-- return { validate: obj } -->
   return obj
 }
 
+/* classify validation type
+  default validation for `params` */
 exports.cat = function (category = 'params', ...vals) {
   var obj = {}
   vals.forEach(i => Object.assign(obj, i))
