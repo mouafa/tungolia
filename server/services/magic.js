@@ -211,7 +211,7 @@ function setFilters(config) {
 // ###setFiltersType
 function setFiltersType(i) {
   let item = {}
-  // `range` type used with a range of value, must supply `gte` or `lte` or both
+  // `range` type used with a range of value, must supply `from` or `to` or both
   if (i.type == 'range') {
     item.range = {
       [i.field]: {

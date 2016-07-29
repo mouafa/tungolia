@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "code": "2.x.x",
-    "docco": "^0.7.0",
+    "docco-husky": "^0.3.3",
     "eslint": "2.9.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-friendly-formatter": "^1.2.2",

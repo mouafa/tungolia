@@ -21,7 +21,7 @@ exports.exists = function (req, rep) {
   }
 }
 
-/* return the number of stored document type */
+/* return the number of stored document `type` */
 exports.count = function (req, rep) {
   let params = req.params
   elastic.count(params.type, params.id)

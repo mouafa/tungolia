@@ -84,7 +84,8 @@ exports.create = function(type, id, body) {
 }
 
 // update an old document by a new one, must provide document `type`, `id` and the new `body`
-// ** the new doc must follow the mapping of the old one **
+
+// **the new doc must follow the mapping of the old one**
 exports.update = function(type, id, body) {
   return client.update({
     index: mainIndex,

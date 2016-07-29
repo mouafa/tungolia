@@ -16,7 +16,7 @@
     <span class="nx">elastic</span><span class="p">.</span><span class="nx">existsType</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">exists</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">rep</span><span class="p">(</span><span class="nx">exists</span><span class="p">))</span>
   <span class="p">}</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>return the number of stored document type</p></div><div class="body"></div></div>
+<span class="p">}</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><div class="dox"><div class="summary"><p>return the number of stored document <code>type</code></p></div><div class="body"></div></div>
 </td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">rep</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">let</span> <span class="nx">params</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span>
   <span class="nx">elastic</span><span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">type</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
@@ -74,4 +74,4 @@
         <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;err&#39;</span><span class="p">,</span> <span class="nx">err</span><span class="p">))</span>
 <span class="p">}</span>
 
-</pre></div></td></tr></tbody></table><div id="generated">generated Thu Jul 28 2016 17:49:13 GMT+0100 (CET)  </div></div></body></html>
+</pre></div></td></tr></tbody></table><div id="generated">generated Fri Jul 29 2016 12:37:14 GMT+0100 (CET)  </div></div></body></html>

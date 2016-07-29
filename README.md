@@ -24,7 +24,12 @@ $ npm run dev
 $ npm start
 ```
 
-### Docs will be available soon
+### Docs
+* swagger API docs available by default via `/swagger`
+* project docs available under folder `docs`, you can serve it with `http-server docs`
+
+### Debug
+you can view API traffic in your browser under `debug/console`
 
 ## License
 

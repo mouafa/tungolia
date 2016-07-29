@@ -58,8 +58,8 @@
     <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">body</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-17"><td class="docs"><div class="pilwrap"><a href="#section-17" class="pilcrow">&#182;</a></div><p>update an old document by a new one, must provide document <code>type</code>, <code>id</code> and the new <code>body</code>
-<em>* the new doc must follow the mapping of the old one *</em></p>
+<span class="p">}</span></pre></div></td></tr><tr id="section-17"><td class="docs"><div class="pilwrap"><a href="#section-17" class="pilcrow">&#182;</a></div><p>update an old document by a new one, must provide document <code>type</code>, <code>id</code> and the new <code>body</code></p>
+</td><td class="code"><div class="highlight"><pre></pre></div></td></tr><tr id="section-18"><td class="docs"><div class="pilwrap"><a href="#section-18" class="pilcrow">&#182;</a></div><p><strong>the new doc must follow the mapping of the old one</strong></p>
 </td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
@@ -69,20 +69,20 @@
       <span class="nx">doc</span><span class="o">:</span> <span class="nx">body</span>
     <span class="p">}</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-18"><td class="docs"><div class="pilwrap"><a href="#section-18" class="pilcrow">&#182;</a></div><p>delete an existing document by its <code>type</code> and <code>id</code></p>
+<span class="p">}</span></pre></div></td></tr><tr id="section-19"><td class="docs"><div class="pilwrap"><a href="#section-19" class="pilcrow">&#182;</a></div><p>delete an existing document by its <code>type</code> and <code>id</code></p>
 </td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="k">delete</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="k">delete</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-19"><td class="docs"><div class="pilwrap"><a href="#section-19" class="pilcrow">&#182;</a></div><p>get the mapping of particular <code>type</code></p>
+<span class="p">}</span></pre></div></td></tr><tr id="section-20"><td class="docs"><div class="pilwrap"><a href="#section-20" class="pilcrow">&#182;</a></div><p>get the mapping of particular <code>type</code></p>
 </td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">getMapping</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">getMapping</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-20"><td class="docs"><div class="pilwrap"><a href="#section-20" class="pilcrow">&#182;</a></div><p>set the mapping of particular <code>type</code>
+<span class="p">}</span></pre></div></td></tr><tr id="section-21"><td class="docs"><div class="pilwrap"><a href="#section-21" class="pilcrow">&#182;</a></div><p>set the mapping of particular <code>type</code>
 <code>map</code> contain the mapping data, see <strong>mappings</strong> for more details</p>
 </td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">putMapping</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">map</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">indices</span><span class="p">.</span><span class="nx">putMapping</span><span class="p">({</span>
@@ -90,38 +90,38 @@
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">map</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-21"><td class="docs"><div class="pilwrap"><a href="#section-21" class="pilcrow">&#182;</a></div><h2>Search documents</h2>
+<span class="p">}</span></pre></div></td></tr><tr id="section-22"><td class="docs"><div class="pilwrap"><a href="#section-22" class="pilcrow">&#182;</a></div><h2>Search documents</h2>
 
 <p>the search feature allow the searching of documents in particular <code>type</code> by rules supplied in <code>config</code></p>
 
 <blockquote>
   <p><strong><code>config</code> must follow the spec</strong></p>
 </blockquote>
-</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">search</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-22"><td class="docs"><div class="pilwrap"><a href="#section-22" class="pilcrow">&#182;</a></div><p><em>Magic</em> will build the Search quiryDSL from the supplied <code>config</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">search</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-23"><td class="docs"><div class="pilwrap"><a href="#section-23" class="pilcrow">&#182;</a></div><p><em>Magic</em> will build the Search quiryDSL from the supplied <code>config</code></p>
 </td><td class="code"><div class="highlight"><pre>  <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">querySimple</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">query</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-23"><td class="docs"><div class="pilwrap"><a href="#section-23" class="pilcrow">&#182;</a></div><h2>Filter documents</h2>
+<span class="p">}</span></pre></div></td></tr><tr id="section-24"><td class="docs"><div class="pilwrap"><a href="#section-24" class="pilcrow">&#182;</a></div><h2>Filter documents</h2>
 
 <p>the filter feature is more advanced than search, it allow filtring documents with advanced options</p>
 
 <blockquote>
   <p><strong><code>config</code> must follow the spec</strong></p>
 </blockquote>
-</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">filter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-24"><td class="docs"><div class="pilwrap"><a href="#section-24" class="pilcrow">&#182;</a></div><p><em>Magic</em> will build the Filter quiryDSL from the supplied <code>config</code></p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">filter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-25"><td class="docs"><div class="pilwrap"><a href="#section-25" class="pilcrow">&#182;</a></div><p><em>Magic</em> will build the Filter quiryDSL from the supplied <code>config</code></p>
 </td><td class="code"><div class="highlight"><pre>  <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">m</span><span class="p">.</span><span class="nx">queryAdvanced</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
   <span class="k">return</span> <span class="nx">client</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">mainIndex</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
     <span class="nx">body</span><span class="o">:</span> <span class="nx">query</span>
   <span class="p">})</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-25"><td class="docs"><div class="pilwrap"><a href="#section-25" class="pilcrow">&#182;</a></div><h2>Suggest documents</h2>
+<span class="p">}</span></pre></div></td></tr><tr id="section-26"><td class="docs"><div class="pilwrap"><a href="#section-26" class="pilcrow">&#182;</a></div><h2>Suggest documents</h2>
 
 <p><strong>this feature is not yet ready to use</strong></p>
-</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">suggest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-26"><td class="docs"><div class="pilwrap"><a href="#section-26" class="pilcrow">&#182;</a></div><!-- console.log('query', m.querySimple(query)) -->
+</td><td class="code"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">suggest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-27"><td class="docs"><div class="pilwrap"><a href="#section-27" class="pilcrow">&#182;</a></div><!-- console.log('query', m.querySimple(query)) -->
 
 <!-- let query = m.queryAdvanced(config) -->
 
@@ -141,4 +141,4 @@
   <span class="p">})</span>
 <span class="p">}</span>
 
-</pre></div></td></tr></tbody></table><div id="generated">generated Thu Jul 28 2016 17:49:14 GMT+0100 (CET)  </div></div></body></html>
+</pre></div></td></tr></tbody></table><div id="generated">generated Fri Jul 29 2016 12:37:15 GMT+0100 (CET)  </div></div></body></html>
